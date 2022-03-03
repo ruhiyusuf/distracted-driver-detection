@@ -13,7 +13,7 @@ def preProcess(x):
     x[2, :, :] -= mean_pixel[2]
     return x
 
-def runDDD(filename):
+def runDDD(filename, USER_TEST_PATH):
     BASE_DIR = Path(__file__).parent.parent
     print('BASE DIR:', BASE_DIR)
     # BASE_DIR = r'C:\Users\ruhiy\Documents\Machine Learning\Distracted Driver Detection\Distracted Driver Detection Sample Predict'
@@ -29,7 +29,8 @@ def runDDD(filename):
     # MODEL_FILE_JSON = os.path.join(MODEL_DIR, MODEL_FILE + '.json')
     # print(MODEL_FILE_JSON)
     
-    USER_TEST_PATH = os.path.join(BASE_DIR, 'static', 'uploads')
+    # moving this to be an input
+    # USER_TEST_PATH = os.path.join(BASE_DIR, 'static', 'uploads')
     
     labels = ["Safe Driving","Texting - Right","Talking on phone - Right","Texting - Left","Talking on phone - Left"
               ,"Operating the Radio", "Drinking", "Reaching Behind", "Hair and Makeup","Talking to Passenger"
@@ -40,7 +41,7 @@ def runDDD(filename):
     pre_processed_img = cv2.imread(os.path.join(USER_TEST_PATH, filename))
 
     print('pre type:', type(pre_processed_img))
-    print('pre shape', pre_processed_img.shape)
+    # print('pre shape', pre_processed_img.shape)
     # processed_img = cv2.cvtColor(pre_processed_img, cv2.COLOR_BGR2RGB) 
     # print('after converting to rgb')
     # print('af type:', type(processed_img))
@@ -48,9 +49,9 @@ def runDDD(filename):
     processed_img = cv2.resize(pre_processed_img, (224, 224))
     processed_img = np.expand_dims(processed_img, axis=0)
     # processed_img = preProcess(processed_img)
-    print('post type:', type(processed_img))
-    print('post shape', processed_img.shape)
-    print(processed_img)
+    # // print('post type:', type(processed_img))
+    # // print('post shape', processed_img.shape)
+    # // print(processed_img)
 
     yhat = loaded_model.predict(processed_img)
 
@@ -59,4 +60,4 @@ def runDDD(filename):
     return labels[int(np.argmax(yhat))]
 
     
-runDDD('angry_face.jpg')
+# runDDD('angry_face.jpg')
